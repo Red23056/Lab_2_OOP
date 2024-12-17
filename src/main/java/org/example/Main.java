@@ -1,8 +1,18 @@
 package org.example;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import java.io.File;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.List;
 import com.opencsv.*;
+import org.xml.sax.SAXException;
+
 import java.io.IOException;
 
 import java.util.Objects;
@@ -10,7 +20,25 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void read_data(String file)
+    public static void read_data_xml(String file) throws ParserConfigurationException, IOException, SAXException {
+        //List_of_towns List = new List_of_towns();
+        File xmlFile = new File(file);
+         // Create a DocumentBuilder
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+
+        // Parse the XML file
+        Document document = builder.parse(xmlFile);
+
+        // Access elements by tag name
+        NodeList nodeList = document.getElementsByTagName("root");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+            System.out.println("Element Content: " + node.getTextContent());
+        }
+    }
+
+    public static void read_data_csv(String file)
     {
         List_of_towns List = new List_of_towns();
         try {
@@ -30,7 +58,8 @@ public class Main {
         List.print_all_reserve();
     }
     //"/d:/address.csv
-    public static void main(String[] args) {
+    //"/d:/address.xml
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         boolean working = true;
         Scanner scanner = new Scanner(System.in);
         while(working){
@@ -40,7 +69,7 @@ public class Main {
                 working = false;
             }
             else {
-                read_data(address);
+                read_data_xml(address);
             }
         }
     }
