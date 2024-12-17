@@ -8,5 +8,6 @@ public class Main {
             System.out.println("i = " + i);
             System.out.println("Test");
         }
+        System.out.println("end_test");
     }
 }
